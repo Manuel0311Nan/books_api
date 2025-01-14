@@ -29,6 +29,10 @@ class Page
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
+    public function __construct()
+{
+    $this->createdAt = new \DateTime; // Asigna la fecha actual al crear la entidad
+}
     public function getId(): ?int
     {
         return $this->id;
