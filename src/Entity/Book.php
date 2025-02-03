@@ -22,8 +22,14 @@ class Book
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
     #[ORM\Column(type: "datetime")]
     private $createdAt;
+
+    #[ORM\OneToOne(targetEntity: Item::class, mappedBy: "book")]
+    private ?Item $rune = null;
 
     /**
      * @var Collection<int, Page>
@@ -64,6 +70,16 @@ class Book
 
         return $this;
     }
+
+    public function getImage():?string
+    {
+        return $this->image;
+    }
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+        return $this;
+    }
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
@@ -96,6 +112,16 @@ class Book
             }
         }
 
+        return $this;
+    }
+    public function getRune(): ?Item
+    {
+        return $this->rune;
+    }
+
+    public function setRune(?Item $rune): static
+    {
+        $this->rune = $rune;
         return $this;
     }
 }

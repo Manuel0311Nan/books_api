@@ -22,6 +22,7 @@ class BookCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('title'),
             TextareaField::new('description'),
+            TextareaField::new('image'),
             DateTimeField::new('createdAt')->onlyOnIndex(),
         ];
     }
