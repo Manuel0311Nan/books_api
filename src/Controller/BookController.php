@@ -80,7 +80,7 @@ class BookController extends AbstractController
         return $this->json(['success' =>'Libro actualizado'], 201);
     }
     #[Route('/api/book/{id}', name:'delete_book', methods:['DELETE'])]
-    public function delete_BookA(int $id):JsonResponse
+    public function delete_Book(int $id):JsonResponse
     {
         $book = $this->bookRepository->find($id);
 

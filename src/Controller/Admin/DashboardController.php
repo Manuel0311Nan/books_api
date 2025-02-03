@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Book;
 use App\Entity\Page;
+use App\Entity\Item;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -32,6 +33,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Books', 'fas fa-book', Book::class);
         yield MenuItem::linkToCrud('Pages', 'fas fa-file-alt', Page::class);
+        yield MenuItem::linkToCrud('Items', 'fas fa-file-alt', Page::class);
     }
     #[IsGranted('ROLE_ADMIN')]
     public function role(): Response

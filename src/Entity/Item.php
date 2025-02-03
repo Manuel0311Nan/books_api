@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\ItemType;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,7 +14,7 @@ class Item
     #[ORM\Column]
     private ?int $id = null;
     
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50, enumType: ItemType::class)]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
@@ -33,17 +34,24 @@ class Item
     #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?Book $book = null;
 
+    #[ORM\Column(type: "datetime")]
+    private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime;
+    }
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): string
+    public function getType(): ?ItemType
     {
         return $this->type;
     }
-
-    public function setType(string $type): static
+    
+    public function setType(ItemType $type): self
     {
         $this->type = $type;
         return $this;
@@ -76,6 +84,11 @@ class Item
     {
         $this->image = $image;
         return $this;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
     }
 
     public function getPage(): ?Page
