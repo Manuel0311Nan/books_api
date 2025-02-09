@@ -23,7 +23,11 @@ class PageCrudController extends AbstractCrudController
             IntegerField::new('pageNumber', 'Número de página'),
             TextareaField::new('content', 'Contenido'),
             AssociationField::new('book', 'Libro'),
-            ArrayField::new('nextOptions', 'Opciones páginas'),
+            TextareaField::new('image'),
+            ArrayField::new('nextOptions', 'Opciones páginas')
+            ->formatValue(function ($option) {
+                return implode(', ', $option); // Muestra los valores como texto
+            }),
             DateTimeField::new('createdAt')->onlyOnIndex(),
         ];
     }

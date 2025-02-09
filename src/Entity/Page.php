@@ -25,7 +25,7 @@ class Page
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'json', nullable: true)]
     private ?array $nextOptions = null;
 
     #[ORM\Column(length: 255)]
@@ -84,7 +84,7 @@ class Page
 
     public function getNextOptions(): ?array
     {
-        return $this->nextOptions;
+        return $this->nextOptions?? [];
     }
 
     public function setNextOptions(?array $nextOptions): static
@@ -141,6 +141,11 @@ class Page
             }
         }
         return $this;
+    }
+    public function __toString(): string
+    {
+        $bookTitle = $this->book ? $this->book->getTitle() : 'Sin libro';
+        return sprintf('Libro %s - Página %s', $bookTitle, $this->pageNumber ?? 'Sin ID');
     }
     
 }

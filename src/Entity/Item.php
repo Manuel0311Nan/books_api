@@ -14,7 +14,7 @@ class Item
     #[ORM\Column]
     private ?int $id = null;
     
-    #[ORM\Column(length: 50, enumType: ItemType::class)]
+    #[ORM\Column(type: 'string', length: 50)]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
@@ -48,12 +48,12 @@ class Item
 
     public function getType(): ?ItemType
     {
-        return $this->type;
+        return $this->type ? ItemType::from($this->type) : null;
     }
     
-    public function setType(ItemType $type): self
+    public function setType(ItemType $type): static
     {
-        $this->type = $type;
+        $this->type = $type->value;
         return $this;
     }
     public function getName(): string
@@ -96,10 +96,20 @@ class Item
         return $this->page;
     }
     public function setPage(?Page $page): static
-    {
-        $this->page = $page;
-        return $this;
+{
+    if ($page) {
+        $book = $page->getBook();
+
+        if ($this->book && $this->page && $this->book->getId() === $book->getId() && $this->page->getId() === $page->getId()) {
+            throw new \Exception('Este ítem ya está asignado a esta página del libro.');
+        }
+
+        $this->book = $book;
     }
+
+    $this->page = $page;
+    return $this;
+}
     public function getBook():?Book
     {
         return $this->book;

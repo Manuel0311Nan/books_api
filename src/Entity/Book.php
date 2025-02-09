@@ -124,4 +124,10 @@ class Book
         $this->rune = $rune;
         return $this;
     }
+
+    public function __toString(): string
+    {
+      $bookId = $this->id ?? 'Sin libro';
+      return sprintf('Libro %s - Título %s', $bookId, $this->title ?? 'Sin ID');
+    }
 }

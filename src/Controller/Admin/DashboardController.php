@@ -33,7 +33,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Books', 'fas fa-book', Book::class);
         yield MenuItem::linkToCrud('Pages', 'fas fa-file-alt', Page::class);
-        yield MenuItem::linkToCrud('Items', 'fas fa-file-alt', Page::class);
+        yield MenuItem::linkToCrud('Items', 'fas fa-file-alt', Item::class);
     }
     #[IsGranted('ROLE_ADMIN')]
     public function role(): Response

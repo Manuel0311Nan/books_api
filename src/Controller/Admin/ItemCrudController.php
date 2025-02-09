@@ -5,8 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Item;
 use App\Enum\ItemType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextAreaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -21,7 +23,8 @@ class ItemCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
+            AssociationField::new('page', 'Página'),
             ChoiceField::new('type')
             ->setChoices([
                 'Runa' => ItemType::RUNA,
@@ -33,5 +36,12 @@ class ItemCrudController extends AbstractCrudController
             TextareaField::new('image'),
             DateTimeField::new('createdAt')->onlyOnIndex(),
         ];
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setEntityLabelInSingular('Item')
+                    ->setEntityLabelInPlural('Items')
+                    ->setDefaultSort(['createdAt' => 'DESC']);
     }
 }
