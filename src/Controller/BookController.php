@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Book;
 use App\Repository\BookRepository;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,11 +22,12 @@ class BookController extends AbstractController
         $this->bookRepository = $bookRepository;
     }
     #[Route('/api/book', name: 'showBooks',methods:['GET'])]
-    public function index(): Response
+    public function index(BookRepository $bookRepository, SerializerInterface $serializer): Response
     {
-        $books = $this->bookRepository->findAll();
-
-        return $this->json($books, 200);
+        $books = $bookRepository->findAll();
+        $json = $serializer->serialize($books, 'json', ['groups' => 'book:read']);
+    
+        return new JsonResponse($json, 200, [], true);
     }
     #[Route('/api/book/{id}', name: 'showID',methods:['GET'])]
     public function show(int $id): JsonResponse

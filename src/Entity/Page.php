@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PageRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,21 +14,27 @@ class Page
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['page:read', 'book:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'pages')]
+    #[Groups(['page:read'])]
     private ?Book $book = null;
 
     #[ORM\Column]
+    #[Groups(['page:read'])]
     private ?int $pageNumber = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['page:read'])]
     private ?string $content = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
+    #[Groups(['page:read'])]
     private ?array $nextOptions = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['page:read'])]
     private ?string $image = null;
 
     #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'page', cascade: ['persist', 'remove'])]

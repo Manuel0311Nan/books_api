@@ -35,9 +35,9 @@ class PageController extends AbstractController
             return $this ->json(['error' => 'Book not found'], 404);
         }
 
-        $pages = $this->pageRepository->findBy(['bookId' => $book]);
+        $pages = $this->pageRepository->findBy(['book' => $book]);
 
-        return $this->json($pages, 200);
+        return $this->json($pages, 200, [], ['groups' => 'page:read']);
     }
     #[Route('/api/book/{bookId}/pages', name: 'createPage',methods:['POST'])]
     public function createPage(int $bookId, Request $request): JsonResponse
