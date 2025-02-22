@@ -39,6 +39,21 @@ class PageController extends AbstractController
 
         return $this->json($pages, 200, [], ['groups' => 'page:read']);
     }
+    #[Route('/api/book/{bookId}/page/{pageNumber}/options', methods: ['GET'])]
+    public function getNextOptions($bookId, $pageNumber, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $page = $entityManager->getRepository(Page::class)->findOneBy([
+            'book' => $bookId,
+            'pageNumber' => $pageNumber
+        ]);
+    
+        if (!$page) {
+            return new JsonResponse(['message' => 'Página no encontrada'], 404);
+        }
+    
+        // No es necesario decodificar, ya es un array
+        return new JsonResponse($page->getNextOptions());
+    }
     #[Route('/api/book/{bookId}/pages', name: 'createPage',methods:['POST'])]
     public function createPage(int $bookId, Request $request): JsonResponse
     {
